@@ -15,4 +15,12 @@ public class JenkinsTest{
     System.debug('Method called');
     System.debug('Method called');
   }
+  
+  public static void test2(){
+    System.debug('Method called');
+    System.debug('Method called');
+    System.debug('Method called');
+    System.debug('Method called');
+    System.debug('Method called');
+  }
 }
