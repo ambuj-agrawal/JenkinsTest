@@ -24,7 +24,6 @@ node {
         stage('Deploye Code') {
             if (isUnix()) {
                 rc = sh returnStatus: true, script: "sfdx -v"
-                rc = sh returnStatus: true, script: "sfdx force:auth:logout -u ${HUB_ORG} -p"
                 rc = sh returnStatus: true, script: "sfdx force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY} --username ${HUB_ORG} --jwtkeyfile ${jwt_key_file} --setdefaultdevhubusername --instanceurl ${SFDC_HOST}"
             }else{
                  rc = bat returnStatus: true, script: "\"${toolbelt}\" force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY} --username ${HUB_ORG} --jwtkeyfile \"${jwt_key_file}\" --setdefaultdevhubusername --instanceurl ${SFDC_HOST}"
@@ -44,4 +43,18 @@ node {
 //            println(rmsg)
         }
     }
+	
+	post {
+
+		cleanup {
+			cleanWs()
+		}
+		always {
+			rc = sh returnStatus: true, script: "sfdx force:auth:logout -u ${HUB_ORG} -p"
+			//bat "sfdx force:auth:logout -u ${DEV_USERNAME} -p" 
+			//bat "sfdx force:auth:logout -u ${ITEST_USERNAME} -p"
+		}
+	}
+    
+    
 }
